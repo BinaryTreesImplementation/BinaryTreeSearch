@@ -54,7 +54,7 @@ TEST_CASE("insert3", "[ins3]") {
 	test.insert(16);
 	test.insert(10);
 	REQUIRE(*test.getKeyRoot() == 6);
-	REQUIRE(test.getcount() == 3);
+	REQUIRE(test.getcount() == 5);
 	REQUIRE(test.getroot() != 0);
 	REQUIRE(*test.getLevel(6) == 2);
 	REQUIRE(*test.getLevel(10) == 2);
