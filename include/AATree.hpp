@@ -1,196 +1,227 @@
-#include <iostream>
-#include <cstdlib>
-#include <cstring>
-#include <fstream>
+#include <iostream>     
+
 
 
 using namespace std;
 
-template <class T>
-struct Node
-{
-	T element, count, level;
-	Node<T> *left, *right, *parent;
-};
+template <typename T>
+class AATree {
 
-template <class T>
-class AAT {
 private:
-	Node<T>* root;
+
+
+	struct AANode
+	{
+		T element;
+		AANode    *left;
+		AANode    *right;
+		int        level;
+
+		AANode() : left(NULL), right(NULL), level(1) { }
+		AANode(const T & e, AANode *lt, AANode *rt, int lv = 1)
+			: element(e), left(lt), right(rt), level(lv) { }
+	};
+
+
+	AANode *root;
+	AANode *bottom;
+	size_t count;
+
 public:
-	AAT();
-	int countNode(Node<T>* t);
-	int lookup(T &el);
-	Node<T>* insert(Node<T>* t, Node<T>* x);
-	void Skew(Node<T>* t);
-	bool Split(Node<T>* t);
-	void Rebal(Node<T>* t);
-	void Print(Node<T>* t);
-	Node<T>* getroot() const;
 
 
-
-};
-
-
-
-
-template <typename T> AAT<T>::AAT() {
-	root = NULL;
-}
-
-
-
-template <typename T> 
-int AAT<T>::lookup(T &element) {
-
-	Node<T>* temp = new Node<T>;
-	temp->element = element;
-	temp->level = 1;
-	temp->count = 0;
-	temp->left = NULL;
-	temp->right = NULL;
-	temp->parent = NULL;
-	temp = insert(root, temp);
-
-	return temp->count;
-}
-
-
-
-template <typename T> 
-void AAT<T>::Skew(Node<T>* temp) {
-
-	Node<T> *ptr = temp->left;
-	if (temp->parent->left == temp)
-		temp->parent->left = ptr;
-	else
-		temp->parent->right = ptr;
-	ptr->parent = temp->parent;
-	temp->parent = ptr;
-	temp->left = ptr->right;
-	if (temp->left != NULL)
-		temp->left->parent = temp;
-	ptr->right = temp;
-	temp->level = (temp->left ? temp->left->level + 1 : 1);
-}
-
-
-
-template <typename T> 
-bool AAT<T>::Split(Node<T>* temp) {
-
-	Node<T>* ptr = temp->right;
-	if (ptr && ptr->right && (ptr->right->level == temp->level))
+	AATree()
 	{
-		if (temp->parent->left == temp)
-			temp->parent->left = ptr;
+		bottom = new AANode;
+		bottom->left = bottom->right = bottom;
+		bottom->level = 0;
+		root = bottom;
+		count = 0;
+	}
+
+
+
+
+	AANode* search(const T & x) const
+	{
+		AANode *current = root;
+		bottom->element = x;
+
+		for (; ; )
+		{
+			if (x < current->element)
+				current = current->left;
+			else if (current->element < x)
+				current = current->right;
+			else
+				return current;
+		}
+	}
+
+
+
+	void printTree() const
+	{
+		if (root == bottom)
+			cout << "Empty tree" << endl;
 		else
-			temp->parent->right = ptr;
-		ptr->parent = temp->parent;
-		temp->parent = ptr;
-		temp->right = ptr->left;
-		if (temp->right != NULL)
-			temp->right->parent = temp;
-		ptr->left = temp;
-		ptr->level = temp->level + 1;
-		return true;
+			printTree(root);
 	}
-	return false;
-}
 
 
-template <typename T>
-void AAT<T>::Rebal(Node<T>* temp) {
-
-	temp->left = NULL;
-    temp->right = NULL;
-    temp->level = 1;
-    for (temp = temp->parent; temp != root; temp = temp->parent)
-    {
-        if (temp->level != (temp->left ? temp->left->level + 1 : 1 ))
-        {
-            Skew(temp);
-            if (temp->right == NULL)
-                temp = temp->parent;
-            else if (temp->level != temp->right->level)
-                temp = temp->parent;
-        }
-        if (temp->parent != root)
-        {
-            if (Split(temp->parent) == false)
-                break;
-        }
-    }
-}
-
-
-
-
-template <typename T> 
-Node<T>* AAT<T>::insert(Node<T>* temp, Node<T>* x) {
-
-	if (root == NULL)
+	void insert(const T & x)
 	{
-		x->count = 1;
-		x->parent = NULL;
-		x->left = NULL;
-		x->right = NULL;
-		root = x;
-		return root;
+		insert(x, root);
+		count++;
+
 	}
-	if (x->element < temp->element)
+
+	void remove(const T & x)
 	{
-		if (temp->left)
-			return insert(temp->left, x);
-		temp->left = x;
-		x->parent = temp;
-		x->count = 1;
-		Rebal(x);
-		return x;
+		remove(x, root);
 	}
-	if (x->element > temp->element)
+
+
+
+	void insert(const T & x, AANode * & t)
 	{
-		if (temp->right)
-			return insert(temp->right, x);
-		temp->right = x;
-		x->parent = temp;
-		x->count = 1;
-		Rebal(x);
-		return x;
+		if (t == bottom)
+			t = new AANode(x, bottom, bottom);
+		else if (x < t->element)
+			insert(x, t->left);
+		else if (t->element < x)
+			insert(x, t->right);
+		else
+			return; 
+
+		skew(t);
+		split(t);
 	}
-	temp->count++;
-	delete x;
-	return temp;
-}
+
+	void remove(const T & x, AANode * & t)
+	{
+		static AANode *lastNode, *deletedNode = bottom;
+
+		if (t != bottom)
+		{
+			// Step 1: Search down the tree and set lastNode and deletedNode
+			lastNode = t;
+			if (x < t->element)
+				remove(x, t->left);
+			else
+			{
+				deletedNode = t;
+				remove(x, t->right);
+			}
+
+			// Step 2: If at the bottom of the tree and
+			//         x is present, we remove it
+			if (t == lastNode)
+			{
+				if (deletedNode == bottom || x != deletedNode->element)
+					return;   // Item not found; do nothing
+				deletedNode->element = t->element;
+				deletedNode = bottom;
+				t = t->right;
+				delete lastNode;
+			}
+
+			// Step 3: Otherwise, we are not at the bottom; rebalance
+			else
+				if (t->left->level < t->level - 1 ||
+					t->right->level < t->level - 1)
+				{
+					if (t->right->level > --t->level)
+						t->right->level = t->level;
+					skew(t);
+					skew(t->right);
+					skew(t->right->right);
+					split(t);
+					split(t->right);
+				}
+		}
+		count--;
+	}
 
 
-template <typename T> 
-Node<T>* AAT<T>::getroot() const {
-	return root;
-}
+
+	void printTree(AANode *t) const
+	{
+		if (t != bottom)
+		{
+			printTree(t->left);
+			cout << t->element << endl;
+			printTree(t->right);
+		}
+	}
+
+	void skew(AANode * & t)
+	{
+		if (t->left->level == t->level)
+			rotateWithLeftChild(t);
+	}
 
 
-template <typename T> 
-void AAT<T>::Print(Node<T>* temp) {
+	void split(AANode * & t)
+	{
+		if (t->right->right->level == t->level)
+		{
+			rotateWithRightChild(t);
+			t->level++;
+		}
+	}
 
-	if (!temp)
-		return;
-	Print(temp->left);
-	cout << "Value: " << temp->element << "  Count:" << temp->count;
-	cout << "  Level: " << temp->level << endl;
-	Print(temp->right);
-}
+	void rotateWithLeftChild(AANode * & k2)
+	{
+		AANode *k1 = k2->left;
+		k2->left = k1->right;
+		k1->right = k2;
+		k2 = k1;
+	}
 
+	void rotateWithRightChild(AANode * & k1)
+	{
+		AANode *k2 = k1->right;
+		k1->right = k2->left;
+		k2->left = k1;
+		k1 = k2;
+	}
 
+	T* getLevel(const T& key)
+	{
+		AANode *node = search(key);
+		if (node != nullptr)
+			return new T(node->level);
+		else
+			return nullptr;
+	}
 
-template <typename T>
-int AAT<T>::countNode(Node<T>* temp) {
+	T* getRightKey(const T& key)
+	{
+		AANode *node = search(key);
+		if (node != nullptr && node->right != nullptr)
+			return new T(node->right->element);
+		else
+			return nullptr;
+	}
 
-	if (!temp)
-		return 0;
-	int count = 1;
-	count = count + countNode(temp->left);
-	count = count + countNode(temp->right);
-	return count;
-}
+	T* getKeyRoot()
+	{
+		if (root)
+			return new T(root->element);
+		else
+			return nullptr;
+	}
+	T* getLeftKey(const T& key)
+	{
+		AANode *node = search(key);
+		if (node != nullptr && node->left != nullptr)
+			return new T(node->left->element);
+		else
+			return nullptr;
+	}
+
+	size_t getcount() {
+		return count;
+	}
+};
