@@ -11,36 +11,34 @@ int main() {
 		cout << "\n---------------------" << endl;
 		cout << "\nOperations on AA Tree" << endl;
 		cout << "\n---------------------" << endl;
-		cout << "1.Insert elements from text file" << endl;
-		cout << "2.Insert element from keyboard" << endl;
-		cout << "3.Print Tree Data" << endl;
-		cout << "4.Total Tree Nodes" << endl;
+		cout << "1.Insert element into Tree" << endl;
+		cout << "2.Print Tree" << endl;
+		cout << "3.Delete element" << endl;
+		cout << "4.Find element" << endl;
 		cout << "5.Exit" << endl;
 		cout << "Enter Your Choice: ";
 		cin >> ch;
 		switch (ch)
 		{
 		case 1:
-			if (fin.is_open())
-			{
-				while (fin >> x)
-				{
-					at.lookup(x);
-				}
-				fin.close();
-			}
+			cout << "Enter element to enter" << endl;
+			cin >> x;
+			at.insert(x);
 			break;
 		case 2:
-			cout << "Enter element" << endl;
-			cin >> x;
-			at.lookup(x);
-		case 3:
 			cout << "Elemets of AA Tree" << endl;
-			at.Print(at.getroot());
+			at.printTree();
+			break;
+		case 3:
+			cout << "Enter element to delete" << endl;
+			cin >> x;
+			at.remove(x);
 			break;
 		case 4:
-			cout << "Total number of nodes" << endl;
-			cout << at.countNode(at.getroot()) << endl;
+			cout << "Enter element to find" << endl;
+			cin >> x;
+			if (at.search(x) == x) cout << "This Tree contains such element" << endl;
+			else cout << "This Tree doesn't contain such element" << endl;
 			break;
 		case 5:
 			cout << "Exiting" << endl;
