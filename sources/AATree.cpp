@@ -14,7 +14,6 @@ int main() {
 		cout << "1.Insert element into Tree" << endl;
 		cout << "2.Print Tree" << endl;
 		cout << "3.Delete element" << endl;
-		cout << "4.Find element" << endl;
 		cout << "5.Exit" << endl;
 		cout << "Enter Your Choice: ";
 		cin >> ch;
@@ -34,12 +33,7 @@ int main() {
 			cin >> x;
 			at.remove(x);
 			break;
-		case 4:
-			cout << "Enter element to find" << endl;
-			cin >> x;
-			if (at.search(x) == x) cout << "This Tree contains such element" << endl;
-			else cout << "This Tree doesn't contain such element" << endl;
-			break;
+		
 		case 5:
 			cout << "Exiting" << endl;
 			exit(1);
