@@ -5,7 +5,7 @@ TEST_CASE("insert_root", "[root]") {
 	test.insert(6);
 	REQUIRE(*test.getKeyRoot() == 6);
 	REQUIRE(test.getcount() == 1);
-//  	REQUIRE(test.getRoot() != 0);
+	REQUIRE(test.getroot() != 0);
 	REQUIRE(*test.getLevel(6) == 1);
 		
 }
