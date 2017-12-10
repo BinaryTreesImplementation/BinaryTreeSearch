@@ -224,4 +224,8 @@ public:
 	size_t getcount() {
 		return count;
 	}
+	
+	AANode* getroot() const {
+		return root;
+	}
 };
