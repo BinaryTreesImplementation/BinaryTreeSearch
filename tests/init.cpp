@@ -72,3 +72,45 @@ TEST_CASE("insert3", "[ins3]") {
 	REQUIRE(*test.getLeftKey(16) == 16);
         REQUIRE(*test.getRightKey(16) == 16);
 }
+
+
+/*
+
+              
+	     6 ------ 10                       6 ------- 10
+	    /        /  \      ----->        /          /  \
+    1 ---- 2        8    16                 1 -- 2     8    16
+    
+
+*/
+
+TEST_CASE("insert4", "[ins4]") {
+	AATree<int> test;
+	test.insert(6);
+	test.insert(2);
+	test.insert(8);
+	test.insert(16);
+	test.insert(10);
+	test.insert(1);
+	REQUIRE(*test.getKeyRoot() == 6);
+	REQUIRE(test.getcount() == 6);
+	REQUIRE(test.getroot() != 0);
+	REQUIRE(*test.getLevel(6) == 2);
+	REQUIRE(*test.getLevel(10) == 2);
+	REQUIRE(*test.getLevel(2) == 1);
+	REQUIRE(*test.getLevel(8) == 1);
+	REQUIRE(*test.getLevel(16) == 1);
+	REQUIRE(*test.getLevel(1) == 1);
+	REQUIRE(*test.getLeftKey(6) == 1);
+        REQUIRE(*test.getRightKey(6) == 10);
+	REQUIRE(*test.getLeftKey(10) == 8);
+        REQUIRE(*test.getRightKey(10) == 16);
+	REQUIRE(*test.getLeftKey(2) == 2);
+        REQUIRE(*test.getRightKey(2) == 2);
+	REQUIRE(*test.getLeftKey(8) == 8);
+        REQUIRE(*test.getRightKey(8) == 8);
+	REQUIRE(*test.getLeftKey(16) == 16);
+        REQUIRE(*test.getRightKey(16) == 16);
+	REQUIRE(*test.getLeftKey(1) == 1);
+        REQUIRE(*test.getRightKey(1) == 2);
+}
