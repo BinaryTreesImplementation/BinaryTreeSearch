@@ -169,7 +169,7 @@ TEST_CASE("remove_2", "[r2]") {
    test.insert(2);  
    test.insert(8);
    
-   test.remove(2);
+   test.remove(8);
    REQUIRE(test.getcount() == 2);
    REQUIRE(*test.getLevel(6) == 1);
    REQUIRE(*test.getLevel(2) == 1);
