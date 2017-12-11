@@ -181,3 +181,74 @@ TEST_CASE("remove_2", "[r2]") {
 }
 
 
+/*
+      10                         
+    /    \      (-8) ----->       10 --------> 12
+   8      12                     /            /  \
+  / \     / \                   7 --> 9     11    13
+ 7   9   11  13
+ 
+*/
+TEST_CASE("remove_2", "[r2]") {
+   AATree<int> test;
+   test.insert(10);
+   test.insert(8);  
+   test.insert(7);
+   test.insert(9);
+   test.insert(12);  
+   test.insert(11);
+   test.insert(13);
+	
+	
+  //before removing
+   REQUIRE(test.getcount() == 7);
+   REQUIRE(*test.getLeftKey(10) == 8);
+   REQUIRE(*test.getRightKey(10) == 12);
+   REQUIRE(*test.getLeftKey(8) == 7);
+   REQUIRE(*test.getRightKey(8) == 9);
+   REQUIRE(*test.getLeftKey(7) == 7);
+   REQUIRE(*test.getRightKey(7) == 7);
+   REQUIRE(*test.getLeftKey(9) == 9);
+   REQUIRE(*test.getRightKey(9) == 9);
+   REQUIRE(*test.getLeftKey(12) == 11);
+   REQUIRE(*test.getRightKey(12) == 13);
+   REQUIRE(*test.getLeftKey(11) == 11);
+   REQUIRE(*test.getRightKey(11) == 11);
+   REQUIRE(*test.getLeftKey(13) == 13);
+   REQUIRE(*test.getRightKey(13) == 13);
+   REQUIRE(*test.getLevel(10) == 3);
+   REQUIRE(*test.getLevel(8) == 2);
+   REQUIRE(*test.getLevel(12) == 2);
+   REQUIRE(*test.getLevel(7) == 1);
+   REQUIRE(*test.getLevel(9) == 1);
+   REQUIRE(*test.getLevel(11) == 1);
+   REQUIRE(*test.getLevel(13) == 1);
+	
+
+   //after removing
+   test.remove(8);
+   REQUIRE(test.getcount() == 6);
+   REQUIRE(*test.getLeftKey(10) == 7);
+   REQUIRE(*test.getRightKey(10) == 12);
+   REQUIRE(*test.getLeftKey(7) == 7);
+   REQUIRE(*test.getRightKey(7) == 9);
+   REQUIRE(*test.getLeftKey(9) == 9);
+   REQUIRE(*test.getRightKey(9) == 9);
+   REQUIRE(*test.getLeftKey(12) == 11);
+   REQUIRE(*test.getRightKey(12) == 13);
+   REQUIRE(*test.getLeftKey(11) == 11);
+   REQUIRE(*test.getRightKey(11) == 11);
+   REQUIRE(*test.getLeftKey(13) == 13);
+   REQUIRE(*test.getRightKey(13) == 13);
+   REQUIRE(*test.getLevel(10) == 2);
+   REQUIRE(*test.getLevel(8) == 0);
+   REQUIRE(*test.getLevel(12) == 2);
+   REQUIRE(*test.getLevel(7) == 1);
+   REQUIRE(*test.getLevel(9) == 1);
+   REQUIRE(*test.getLevel(11) == 1);
+   REQUIRE(*test.getLevel(13) == 1);
+}
+
+
+
+
