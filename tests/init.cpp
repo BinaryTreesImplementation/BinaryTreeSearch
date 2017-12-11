@@ -273,7 +273,7 @@ TEST_CASE("remove_4", "[r4]") {
   
 
    //after removing
-   test.remove(8);
+   test.remove(12);
    REQUIRE(test.getcount() == 6);
    REQUIRE(*test.getLeftKey(10) == 9);
    REQUIRE(*test.getRightKey(10) == 11);
