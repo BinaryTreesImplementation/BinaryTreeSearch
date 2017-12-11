@@ -121,5 +121,5 @@ TEST_CASE("remove root", "[root]") {
    test.insert(15);
    test.remove(15);      
    REQUIRE(test.getcount() == 0);
-   REQUIRE(test.getroot() == nullptr);
+   REQUIRE(test.getroot() == 0);
 }
