@@ -258,7 +258,7 @@ TEST_CASE("remove_3", "[r3]") {
  7   9   11  13
  
 */
-TEST_CASE("remove_3", "[r3]") {
+TEST_CASE("remove_4", "[r4]") {
    AATree<int> test;
    test.insert(10);
    test.insert(8);  
