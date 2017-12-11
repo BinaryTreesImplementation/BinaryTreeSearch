@@ -25,7 +25,7 @@ private:
 
 	AANode *root;
 	AANode *bottom;
-	size_t count;
+	int count;
 
 public:
 
@@ -221,7 +221,7 @@ public:
 			return nullptr;
 	}
 
-	size_t getcount() {
+	int getcount() {
 		return count;
 	}
 	
