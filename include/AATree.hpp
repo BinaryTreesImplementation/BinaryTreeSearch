@@ -79,6 +79,7 @@ public:
 	void remove(const T & x)
 	{
 		remove(x, root);
+		count--;
 	}
 
 
@@ -140,7 +141,7 @@ public:
 					split(t->right);
 				}
 		}
-		count--;
+		
 	}
 
 
