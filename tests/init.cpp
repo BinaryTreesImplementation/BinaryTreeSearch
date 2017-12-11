@@ -157,4 +157,27 @@ TEST_CASE("remove_1", "[r1]") {
 }
 
 
+/*
+      6                         
+    /   \      (-8) ----->      2 -> 6 
+   2     8   
+
+*/
+TEST_CASE("remove_2", "[r2]") {
+   AATree<int> test;
+   test.insert(6);
+   test.insert(2);  
+   test.insert(8);
+   
+   test.remove(2);
+   REQUIRE(test.getcount() == 2);
+   REQUIRE(*test.getLevel(6) == 1);
+   REQUIRE(*test.getLevel(2) == 1);
+   REQUIRE(*test.getLevel(8) == 0);
+   REQUIRE(*test.getLeftKey(6) == 6);
+   REQUIRE(*test.getRightKey(6) == 6);
+   REQUIRE(*test.getLeftKey(2) == 2);
+   REQUIRE(*test.getRightKey(2) == 6);
+}
+
 
