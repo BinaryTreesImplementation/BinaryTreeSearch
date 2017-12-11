@@ -120,6 +120,6 @@ TEST_CASE("remove root", "[root]") {
    AATree<int> test;
    test.insert(15);
    test.remove(15);      
-   REQUIRE(testSplayTree.getcount() == 0);
-   REQUIRE(testSplayTree.getroot() == nullptr);
+   REQUIRE(test.getcount() == 0);
+   REQUIRE(test.getroot() == nullptr);
 }
