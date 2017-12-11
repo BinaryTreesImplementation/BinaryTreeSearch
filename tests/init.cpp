@@ -114,3 +114,12 @@ TEST_CASE("insert4", "[ins4]") {
 	REQUIRE(*test.getLeftKey(1) == 1);
         REQUIRE(*test.getRightKey(1) == 2);
 }
+
+
+TEST_CASE("remove root", "[root]") {
+   AATree<int> test;
+   test.insert(15);
+   test.remove(15);      
+   REQUIRE(testSplayTree.getcount() == 0);
+   REQUIRE(testSplayTree.getroot() == nullptr);
+}
