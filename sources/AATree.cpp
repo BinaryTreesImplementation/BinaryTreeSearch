@@ -1,4 +1,4 @@
-#include "AATree.hpp"
+#include "BST.hpp"
 
 int main() {
 
@@ -26,7 +26,7 @@ int main() {
 			break;
 		case 2:
 			cout << "Elemets of AA Tree" << endl;
-			at.printTree();
+			at.display(at.root_(),0);
 			break;
 		case 3:
 			cout << "Enter element to delete" << endl;
