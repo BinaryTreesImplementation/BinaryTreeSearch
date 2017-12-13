@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/BinaryTreesImplementation/AA-tree.svg?branch=master)](https://travis-ci.org/BinaryTreesImplementation/AA-tree) 
+[![Build Status](https://travis-ci.org/Bozey98/BinarySearchTree.svg?branch=master)](https://travis-ci.org/Bozey98/BinarySearchTree) 
 
 TEST
 ```
