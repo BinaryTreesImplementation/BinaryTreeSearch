@@ -144,29 +144,6 @@ public:
 	{
 		return root;
 	}
-
-	void reading(const std::string& filename)
-	{
-		try
-		{
-			std::ifstream fin(filename);
-			if (!fin)
-				throw 1;
-			T temp;
-			fin >> count;
-			for (int i = 0; i < count; ++i)
-			{
-				fin >> temp;
-				insert(temp);
-				count--;
-			}
-			fin.close();
-		}
-		catch (int i)
-		{
-			std::cout << "File doesn't exist!\nError #1\n";
-		}
-	}
 	
 
 	Node<T>* minValue(Node<T>* cur)
