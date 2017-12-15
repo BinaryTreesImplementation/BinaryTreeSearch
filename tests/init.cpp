@@ -10,5 +10,5 @@ TEST_CASE("insert_root", "[root]") {
    REQUIRE(test.getLeftKey(5) == nullptr);
    REQUIRE(test.getRightKey(5) == nullptr);
    REQUIRE(test.getParentKey(5) == nullptr);
-   REQUIRE(test.getCount() == 1);
+   REQUIRE(test.get_count() == 1);
 }
