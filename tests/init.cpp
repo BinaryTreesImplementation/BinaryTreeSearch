@@ -58,8 +58,8 @@ TEST_CASE("insert_rightCh", "[insRight]") {
   test.insert(5);
   test.insert(7);
    REQUIRE(*test.getKeyRoot() == 5);
-   REQUIRE(*test.getLeftKey(5) == nullptr);
-   REQUIRE(test.getRightKey(5) == 7);
+   REQUIRE(test.getLeftKey(5) == nullptr);
+   REQUIRE(*test.getRightKey(5) == 7);
    REQUIRE(test.getParentKey(5) == nullptr);
    REQUIRE(*test.getParentKey(7) == 5);
    REQUIRE(test.getLeftKey(7) == nullptr);
