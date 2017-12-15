@@ -172,7 +172,7 @@ TEST_CASE("insert_right_right", "[insRR]") {
   
    REQUIRE(*test.getParentKey(7) == 5);
    REQUIRE(test.getLeftKey(7) == nullptr);
-   REQUIRE(test.getRightKey(7) == 10);
+   REQUIRE(*test.getRightKey(7) == 10);
   
    REQUIRE(*test.getParentKey(10) == 7);
    REQUIRE(test.getLeftKey(10) == nullptr);
