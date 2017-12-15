@@ -130,6 +130,7 @@ TEST_CASE("insert_left_left", "[insLL]") {
   test.insert(1);
    REQUIRE(*test.getKeyRoot() == 5);
    REQUIRE(*test.getLeftKey(5) == 3);
+   REQUIRE(test.getRightKey(5) == nullptr);
    REQUIRE(test.getParentKey(5) == nullptr);
   
    REQUIRE(*test.getParentKey(3) == 5);
@@ -139,6 +140,43 @@ TEST_CASE("insert_left_left", "[insLL]") {
    REQUIRE(*test.getParentKey(1) == 3);
    REQUIRE(test.getLeftKey(1) == nullptr);
    REQUIRE(test.getRightKey(1) == nullptr);
+  
+   REQUIRE(test.get_count() == 3);
+}
+
+
+
+/* insert left child with left parent
+  
+       5        ---+3 +7---->       5  
+                                   /  
+                                 3      
+                                /
+                               1
+
+
+
+*/
+
+TEST_CASE("insert_right_right", "[insRR]") {
+  
+  BST<int> test;
+  
+  test.insert(5);
+  test.insert(7);
+  test.insert(10);
+   REQUIRE(*test.getKeyRoot() == 5);
+   REQUIRE(test.getLeftKey(5) == nullptr);
+   REQUIRE(*test.getRightKey(5) == 7);
+   REQUIRE(test.getParentKey(5) == nullptr);
+  
+   REQUIRE(*test.getParentKey(7) == 5);
+   REQUIRE(test.getLeftKey(7) == nullptr);
+   REQUIRE(test.getRightKey(7) == 10);
+  
+   REQUIRE(*test.getParentKey(10) == 7);
+   REQUIRE(test.getLeftKey(10) == nullptr);
+   REQUIRE(test.getRightKey(10) == nullptr);
   
    REQUIRE(test.get_count() == 3);
 }
