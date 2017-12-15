@@ -304,7 +304,7 @@ TEST_CASE("remove left child with left child", "[removeLeftWithLeft]") {
 /*   remove right child with right child
 
         5
-       /  \  --------(-10)---->        5
+       /  \  --------(-7)---->        5
       3    7                         /   \
             \                       3     10
             10       
@@ -340,7 +340,7 @@ TEST_CASE("remove right child with right child", "[removeRightWithRight]") {
 /*   remove left child with right and left children
 
         5
-       /  \  --------(-10)---->        5
+       /  \  --------(-3)---->        5
       3    7                         /   \
      / \                            4     7
     1   4                          /
@@ -349,7 +349,7 @@ TEST_CASE("remove right child with right child", "[removeRightWithRight]") {
 */
 
 
-TEST_CASE("remove left child with right and left children", "[removeRightWithRight]") {
+TEST_CASE("remove left child with right and left children", "[removeLeftWithRightWithLeft]") {
    BST<int> test;
    test.insert(5);
    test.insert(3);
@@ -371,6 +371,46 @@ TEST_CASE("remove left child with right and left children", "[removeRightWithRig
    REQUIRE(*test.getLeftKey(5) == 4);
    REQUIRE(*test.getLeftKey(4) == 1);
    REQUIRE(test.getRightKey(4) == nullptr);
+   REQUIRE(test.get_count() == 4);
+}
+
+
+
+
+/*   remove left child with right and left children
+
+        5
+       /  \  --------(-7)---->        5
+      3    7                         /   \
+          / \                       3     6
+         6   10                            \
+                                           10
+
+*/
+
+
+TEST_CASE("remove right child with right and left children", "[removeRightWithRightWithLeft]") {
+   BST<int> test;
+   test.insert(5);
+   test.insert(3);
+   test.insert(7);
+   test.insert(6);
+   test.insert(10);
+  
+  
+   REQUIRE(*test.getKeyRoot() == 5);
+   REQUIRE(*test.getLeftKey(5) == 3);
+   REQUIRE(*test.getRightKey(5) == 7);
+   REQUIRE(test.get_count() == 5);
+   REQUIRE(*test.getLeftKey(7) == 6);
+   REQUIRE(*test.getRightKey(7) == 10);
+
+   test.remove(7); 
+   REQUIRE(*test.getKeyRoot() == 5);
+   REQUIRE(*test.getRightKey(5) == 6);
+   REQUIRE(*test.getLeftKey(5) == 3);
+   REQUIRE(test.getLeftKey(6) == nullptr);
+   REQUIRE(*test.getRightKey(6) == 10);
    REQUIRE(test.get_count() == 4);
 }
 
