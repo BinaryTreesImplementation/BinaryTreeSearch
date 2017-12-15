@@ -301,7 +301,7 @@ TEST_CASE("remove left child with left child", "[removeLeftWithLeft]") {
 
 
 
-/*   remove left child with left child
+/*   remove right child with right child
 
         5
        /  \  --------(-10)---->        5
@@ -333,3 +333,46 @@ TEST_CASE("remove right child with right child", "[removeRightWithRight]") {
    REQUIRE(*test.getLeftKey(5) == 3);
    REQUIRE(test.get_count() == 3);
 }
+
+
+
+
+/*   remove left child with right and left children
+
+        5
+       /  \  --------(-10)---->        5
+      3    7                         /   \
+     / \                            4     7
+    1   4                          /
+                                  1
+
+*/
+
+
+TEST_CASE("remove left child with right and left children", "[removeRightWithRight]") {
+   BST<int> test;
+   test.insert(5);
+   test.insert(3);
+   test.insert(1);
+   test.insert(4);
+   test.insert(7);
+  
+  
+   REQUIRE(*test.getKeyRoot() == 5);
+   REQUIRE(*test.getLeftKey(5) == 3);
+   REQUIRE(*test.getRightKey(5) == 7);
+   REQUIRE(test.get_count() == 5);
+   REQUIRE(*test.getLeftKey(3) == 1);
+   REQUIRE(*test.getRightKey(3) == 4);
+
+   test.remove(3); 
+   REQUIRE(*test.getKeyRoot() == 5);
+   REQUIRE(*test.getRightKey(5) == 7);
+   REQUIRE(*test.getLeftKey(5) == 4);
+   REQUIRE(*test.getLeftKey(4) == 1);
+   REQUIRE(test.getRightKey(4) == nullptr);
+   REQUIRE(test.get_count() == 4);
+}
+
+
+
