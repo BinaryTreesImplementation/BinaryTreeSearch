@@ -38,3 +38,31 @@ TEST_CASE("insert_leftCh", "[insLeft]") {
    REQUIRE(test.getRightKey(3) == nullptr);
    REQUIRE(test.get_count() == 2);
 }
+
+
+
+/* insert left child
+  
+       5        ---+7---->      5  
+                                  \
+                                    7
+
+
+
+*/
+
+TEST_CASE("insert_rightCh", "[insRight]") {
+  
+  BST<int> test;
+  
+  test.insert(5);
+  test.insert(7);
+   REQUIRE(*test.getKeyRoot() == 5);
+   REQUIRE(*test.getLeftKey(5) == nullptr);
+   REQUIRE(test.getRightKey(5) == 7);
+   REQUIRE(test.getParentKey(5) == nullptr);
+   REQUIRE(*test.getParentKey(7) == 5);
+   REQUIRE(test.getLeftKey(7) == nullptr);
+   REQUIRE(test.getRightKey(7) == nullptr);
+   REQUIRE(test.get_count() == 2);
+}
