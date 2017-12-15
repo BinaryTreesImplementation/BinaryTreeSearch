@@ -130,7 +130,6 @@ TEST_CASE("insert_left_left", "[insLL]") {
   test.insert(1);
    REQUIRE(*test.getKeyRoot() == 5);
    REQUIRE(*test.getLeftKey(5) == 3);
-   REQUIRE(*test.getRightKey(5) == 7);
    REQUIRE(test.getParentKey(5) == nullptr);
   
    REQUIRE(*test.getParentKey(3) == 5);
