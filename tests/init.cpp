@@ -214,3 +214,27 @@ TEST_CASE("remove root", "[rr]") {
    REQUIRE(test.get_count() == 0);
   
 }
+
+
+/*   remove left child
+
+        5
+       /    --------(-3)---->        5
+     3
+
+*/
+
+
+TEST_CASE("remove left child", "[removeLeft]") {
+   BST<int> test;
+   test.insert(5);
+   test.insert(3);
+   REQUIRE(*test.getKeyRoot() == 5);
+   REQUIRE(*test.getLeftKey(5) == 3);
+   REQUIRE(test.getRightKey() == nullptr);
+   REQUIRE(test.get_count() == 2);
+
+   test.remove(3); 
+   REQUIRE(*test.getKeyRoot() == 5);
+   REQUIRE(test.getLeftKey(5) == nullptr);
+   REQUIRE(test.get_count() == 1);
