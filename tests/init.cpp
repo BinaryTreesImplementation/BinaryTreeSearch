@@ -200,3 +200,17 @@ TEST_CASE("insert_2left2right", "[ins2L2R]") {
   
    REQUIRE(test.get_count() == 7);
 }
+
+
+
+TEST_CASE("remove root", "[rr]") {
+   BST<int> test;
+   test.insert(5);
+   REQUIRE(*test.getKeyRoot() == 5);
+   REQUIRE(test.get_count() == 1);
+
+   test.remove(5); 
+   REQUIRE(test.getKeyRoot() == nullptr);
+   REQUIRE(test.get_count() == 0);
+  
+}
