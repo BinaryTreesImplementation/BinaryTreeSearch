@@ -23,7 +23,7 @@ TEST_CASE("insert_root", "[root]") {
 
 */
 
-TEST_CASE("insert_root", "[root]") {
+TEST_CASE("insert_leftCh", "[insLeft]") {
   
   BST<int> test;
   
