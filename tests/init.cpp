@@ -238,3 +238,4 @@ TEST_CASE("remove left child", "[removeLeft]") {
    REQUIRE(*test.getKeyRoot() == 5);
    REQUIRE(test.getLeftKey(5) == nullptr);
    REQUIRE(test.get_count() == 1);
+}
