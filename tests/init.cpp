@@ -231,7 +231,7 @@ TEST_CASE("remove left child", "[removeLeft]") {
    test.insert(3);
    REQUIRE(*test.getKeyRoot() == 5);
    REQUIRE(*test.getLeftKey(5) == 3);
-   REQUIRE(test.getRightKey() == nullptr);
+   REQUIRE(test.getRightKey(5) == nullptr);
    REQUIRE(test.get_count() == 2);
 
    test.remove(3); 
