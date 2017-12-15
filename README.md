@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Bozey98/BinarySearchTree.svg?branch=master)](https://travis-ci.org/Bozey98/BinarySearchTree) 
+[![Build Status](https://travis-ci.org/BinaryTreesImplementation/BinaryTreeSearch.svg?branch=master)](https://travis-ci.org/BinaryTreesImplementation/BinaryTreeSearch) 
 
 TEST
 ```
