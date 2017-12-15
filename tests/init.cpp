@@ -407,10 +407,11 @@ TEST_CASE("remove right child with right and left children", "[removeRightWithRi
 
    test.remove(7); 
    REQUIRE(*test.getKeyRoot() == 5);
-   REQUIRE(*test.getRightKey(5) == 6);
+   REQUIRE(*test.getParentKey(10) == 5);
+   REQUIRE(*test.getRightKey(5) == 10);
    REQUIRE(*test.getLeftKey(5) == 3);
-   REQUIRE(test.getLeftKey(6) == nullptr);
-   REQUIRE(*test.getRightKey(6) == 10);
+   REQUIRE(*test.getLeftKey(10) == 6);
+   REQUIRE(test.getRightKey(10) == nullptr);
    REQUIRE(test.get_count() == 4);
 }
 
