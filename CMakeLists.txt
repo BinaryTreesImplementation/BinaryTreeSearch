@@ -2,11 +2,16 @@ cmake_minimum_required(VERSION 3.8)
 
 include("cmake/HunterGate.cmake")
 HunterGate(
-    URL "https://github.com/ruslo/hunter/archive/v0.19.123.tar.gz"
-    SHA1 "57d07480686f82ddc916a5980b4f2a18e5954c2b"
+    URL "https://github.com/BinaryTreesImplementation/hunter/archive/v0.141.1.tar.gz"
+    SHA1 "8238708ef68f34a6cbba00896ca677ee6a00a5ab"
 )
 
-project(splay)
+project(SplayTree)
+set(BINARYTREESEARCH_VERSION_MAJOR 0)
+set(BINARYTREESEARCH_VERSION_MINOR 1)
+set(BINARYTREESEARCH_VERSION_PATCH 0)
+set(BINARYTREESEARCH_VERSION_TWEAK 0)
+set(BINARYTREESEARCH_VERSION ${BINARYTREESEARCH_VERSION_MAJOR}.${BINARYTREESEARCH_VERSION_MINOR}.${BINARYTREESEARCH_VERSION_PATCH}.${BINARYTREESEARCH_VERSION_TWEAK})
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -14,9 +19,11 @@ option(BUILD_TESTS "Build tests" OFF)
 option(BUILD_EXAMPLES "Build Examples" OFF)
 
 add_library(${PROJECT_NAME} INTERFACE)
-target_sources(${PROJECT_NAME} INTERFACE "${PROJECT_SOURCE_DIR}/include/BST.hpp")
+target_include_directories(${PROJECT_NAME} INTERFACE 
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>  
+    $<INSTALL_INTERFACE:include>
+)
 
-target_include_directories(${PROJECT_NAME} INTERFACE "${PROJECT_SOURCE_DIR}/include")
 
 if(BUILD_TESTS)
   hunter_add_package(Catch)
@@ -32,7 +39,7 @@ if(BUILD_TESTS)
 endif()
 
 if(BUILD_EXAMPLES)
-    file(GLOB EXAMPLE_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/sources/*.cpp")
+    file(GLOB EXAMPLE_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/examples/*.cpp")
     foreach(EXAMPLE_SOURCE ${EXAMPLE_SOURCES})
         get_filename_component(EXAMPLE_NAME ${EXAMPLE_SOURCE} NAME_WE)
         set(EXAMPLE_TARGET_NAME example_${EXAMPLE_NAME})
@@ -44,3 +51,14 @@ if(BUILD_EXAMPLES)
                 )
     endforeach(EXAMPLE_SOURCE ${EXAMPLE_SOURCES})
 endif()
+
+install(TARGETS BinaryTreeSearch
+    EXPORT BinaryTreeSearch-config
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib
+)
+
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/ DESTINATION include)
+install(EXPORT BinaryTreeSearch-config DESTINATION cmake)
+
+include(CPackConfig.cmake)
