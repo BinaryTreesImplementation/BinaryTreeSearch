@@ -4,17 +4,17 @@ class Counter
 {
 protected:
 	size_t& Count() { static size_t counter = 0; return counter; }
-	
+
 public:
 	Counter() { ++Count(); }
 	~Counter() { --Count(); }
 };
-template <typename T> 
+template <typename T>
 class BST
 {
 private:
-	
-	struct Node: public Counter
+
+	struct Node : public Counter
 	{
 		T element;
 		Node* left;
@@ -67,45 +67,39 @@ public:
 
 	void insert(const T& added)
 	{
-		try
+
+		Node* daughter = new Node;
+		daughter->element = added;
+		daughter->left = daughter->right = daughter->parent = nullptr;
+		Node* parent = root;
+		Node* temp = root;
+		while (temp)
 		{
-			if (search_result(added))
-				throw 5;
-			Node* daughter = new Node;
-			daughter->element = added;
-			daughter->left = daughter->right = daughter->parent = nullptr;
-			Node* parent = root;
-			Node* temp = root;
-			while (temp)
+			parent = temp;
+			if (added < temp->element)
+				temp = temp->left;
+			else
+				temp = temp->right;
+		}
+		if (!parent)
+			root = daughter;
+		else
+		{
+			if (added < parent->element)
 			{
-				parent = temp;
-				if (added < temp->element)
-					temp = temp->left;
-				else
-					temp = temp->right;
+				parent->left = daughter;
+
 			}
-			if (!parent)
-				root = daughter;
 			else
 			{
-				if (added < parent->element)
-				{
-					parent->left = daughter;
+				parent->right = daughter;
 
-				}
-				else
-				{
-					parent->right = daughter;
-
-				}
-				daughter->parent = parent;
 			}
-		}
-		catch (int i)
-		{
-			std::cout << "This number \"" << added << "\" has already added in the tree!\nError #5\n";
+			daughter->parent = parent;
 		}
 	}
+
+
 
 	void display(const Node* temp, unsigned int level)const
 	{
@@ -135,25 +129,31 @@ public:
 		return root->getCounter();
 	}
 
-	Node* get_pointer(const T& value, Node* temp)const
+	Node *Search(const T& value)const
 	{
-		if (temp == 0 || value == temp->element)
-			return temp;
-		if (value > temp->element)
-			return get_pointer(value, temp->right);
-		else return get_pointer(value, temp->left);
-	}
+		Node *searchedElement = root;
 
-	Node* search_result(const T& value)const
-	{
-		return get_pointer(value, root);
+		while (searchedElement != nullptr)
+		{
+			if (searchedElement->element < value)
+				searchedElement = searchedElement->right;
+			else if (value < searchedElement->element)
+				searchedElement = searchedElement->left;
+			else if (searchedElement->element == value)
+			{
+				return searchedElement;
+			}
+		}
+
+		return nullptr;
 	}
+	
 
 	Node* root_()const
 	{
 		return root;
 	}
-	
+
 
 	Node* minValue(Node* cur)
 	{
@@ -163,97 +163,58 @@ public:
 			return minValue(cur->left);
 	}
 
-	void remove(const T value)
+	void remove(const T& key)
 	{
-		try
+		Node *removing = Search(key);
+		if (removing)
 		{
-			Node* delNode = get_pointer(value, root);
-			if (!search_result(value))
-				throw 6;
-
-			if (delNode->left && delNode->right)
+			Node* parent = removing->parent;
+			if (!removing->left && !removing->right)
 			{
-				delNode->element = minValue(delNode->right)->element;
-				delNode = minValue(delNode->right);
-			}
-
-
-			if (!delNode->left && !delNode->right)
-			{
-				if (delNode->parent == nullptr)
+				if (removing != root)
+				{
+					if (removing->parent->left == removing)
+					{
+						removing->parent->left = nullptr;
+					}
+					else
+					{
+						removing->parent->right = nullptr;
+					}
+				}
+				else
 				{
 					root = nullptr;
-					delete delNode;
-					--count;
-					return;
 				}
-				if (delNode->parent->left == delNode)
+				delete removing;
+				return;
+			}
+			else if (removing->left && !removing->right)
+			{
+				if (removing->parent->left == removing)
 				{
-					delNode->parent->left = nullptr;
-					delete delNode;
-
-					return;
+					removing->parent->left = removing->left;
+					removing->left->parent = parent;
 				}
-				if (delNode->parent->right == delNode)
+				else
 				{
-					delNode->parent->right = nullptr;
-					delete delNode;
-					
-					return;
+					removing->parent->right = removing->left;
+					removing->left->parent = removing->parent;
 				}
-			}
-			if (delNode->parent&&delNode->left)
-			{
-				delNode->parent->left = delNode->left;
-				delNode->left->parent = delNode->parent;
-				delete delNode;
-				
-				return;
-			}
-			if (delNode->parent&&delNode->right)
-			{
-				if (delNode == delNode->parent->left)
-				{
-					delNode->parent->left = delNode->right;
-				}
-				else delNode->parent->right = delNode->right;
-				delNode->right->parent = delNode->parent;
-				delete delNode;
-				
-				return;
-			}
-			if (delNode->left)
-			{
-				root = delNode->left;
-				delNode->left = nullptr;
-				delete delNode;
-				
-				return;
-			}
-			if (delNode->right)
-			{
-				root = delNode->right;
-				delNode->right = nullptr;
-				delete delNode;
-				
-				return;
-			}
-			if (!delNode->parent && !delNode->left && !delNode->right)
-			{
-				root = nullptr;
-				delete delNode;
-				
-				return;
-			}
 
-		}
+				delete removing;
+				return;
+			}
+			else if (removing->right)
+			{
+				Node* min = minValue(removing->right);
+				T minKey = min->element;
+				remove(min->element);
+				removing->element = minKey;
 
-		catch (int i)
-		{
-			std::cout << "There isnt element \"" << value << "\" in the tree!\nError#6\n";
+			}
 		}
 	}
-
 	bool compare(const Node* temp1, const Node* temp2)const
 	{
 		bool x = true;
