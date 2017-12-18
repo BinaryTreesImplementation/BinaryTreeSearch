@@ -246,7 +246,7 @@ public:
 
 	T* getRightKey(const T& key)
 	{
-		Node *node = search_result(key);
+		Node *node = Search(key);
 		if (node != nullptr && node->right != nullptr)
 			return new T(node->right->element);
 		else
