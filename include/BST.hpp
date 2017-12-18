@@ -1,18 +1,18 @@
 #include <iostream>
 #include <string>
 
-template <class T> struct Node
-{
-	T element;
-	Node* left;
-	Node* right;
-	Node* parent;
-};
-
-template <class T> class BST
+template <typename T> 
+class BST
 {
 private:
-	Node<T>* root;
+	
+	struct Node
+	{
+		T element;
+		Node* left;
+		Node* right;
+		Node* parent;
+	} *root;
 	unsigned int count;
 public:
 
@@ -36,7 +36,7 @@ public:
 		deleteNode(root);
 	}
 
-	void deleteNode(Node<T>* temp)
+	void deleteNode(Node* temp)
 	{
 		if (!temp)
 			return;
@@ -61,11 +61,11 @@ public:
 		{
 			if (search_result(added))
 				throw 5;
-			Node<T>* daughter = new Node<T>;
+			Node* daughter = new Node;
 			daughter->element = added;
 			daughter->left = daughter->right = daughter->parent = nullptr;
-			Node<T>* parent = root;
-			Node<T>* temp = root;
+			Node* parent = root;
+			Node* temp = root;
 			while (temp)
 			{
 				parent = temp;
@@ -98,7 +98,7 @@ public:
 		}
 	}
 
-	void display(const Node<T>* temp, unsigned int level)const
+	void display(const Node* temp, unsigned int level)const
 	{
 		try
 		{
@@ -126,7 +126,7 @@ public:
 		return count;
 	}
 
-	Node<T>* get_pointer(const T& value, Node<T>* temp)const
+	Node* get_pointer(const T& value, Node* temp)const
 	{
 		if (temp == 0 || value == temp->element)
 			return temp;
@@ -135,18 +135,18 @@ public:
 		else return get_pointer(value, temp->left);
 	}
 
-	Node<T>* search_result(const T& value)const
+	Node* search_result(const T& value)const
 	{
 		return get_pointer(value, root);
 	}
 
-	Node<T>* root_()const
+	Node* root_()const
 	{
 		return root;
 	}
 	
 
-	Node<T>* minValue(Node<T>* cur)
+	Node* minValue(Node* cur)
 	{
 		if (cur->left == nullptr)
 			return cur;
@@ -158,7 +158,7 @@ public:
 	{
 		try
 		{
-			Node<T>* delNode = get_pointer(value, root);
+			Node* delNode = get_pointer(value, root);
 			if (!search_result(value))
 				throw 6;
 
@@ -245,7 +245,7 @@ public:
 		}
 	}
 
-	bool compare(const Node<T>* temp1, const Node<T>* temp2)const
+	bool compare(const Node* temp1, const Node* temp2)const
 	{
 		bool x = true;
 		x = temp1->element == temp2->element;
@@ -268,7 +268,7 @@ public:
 		}
 		else return false;
 	}
-	bool operator == (const BST<T>& tree)const
+	bool operator == (const BST& tree)const
 	{
 		return (compare(root, tree.root_()));
 	}
@@ -276,7 +276,7 @@ public:
 
 	T* getRightKey(const T& key)
 	{
-		Node<T> *node = search_result(key);
+		Node *node = search_result(key);
 		if (node != nullptr && node->right != nullptr)
 			return new T(node->right->element);
 		else
@@ -292,7 +292,7 @@ public:
 	}
 	T* getLeftKey(const T& key)
 	{
-		Node<T> *node = search_result(key);
+		Node *node = search_result(key);
 		if (node != nullptr && node->left != nullptr)
 			return new T(node->left->element);
 		else
@@ -302,7 +302,7 @@ public:
 
 	T* getParentKey(const T& key)
 	{
-		Node<T> *node = search_result(key);
+		Node *node = search_result(key);
 		if (node != nullptr && node->parent != nullptr)
 			return new T(node->parent->element);
 		else
