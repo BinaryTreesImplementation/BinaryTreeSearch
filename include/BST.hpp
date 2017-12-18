@@ -1,25 +1,35 @@
 #include <iostream>
 #include <string>
-
+class Counter
+{
+protected:
+	size_t& Count() { static size_t counter = 0; return counter; }
+	
+public:
+	Counter() { ++Count(); }
+	~Counter() { --Count(); }
+};
 template <typename T> 
 class BST
 {
 private:
 	
-	struct Node
+	struct Node: public Counter
 	{
 		T element;
 		Node* left;
 		Node* right;
 		Node* parent;
+		size_t getCounter()
+		{
+			return Count();
+		}
 	} *root;
-	unsigned int count;
 public:
 
 	BST()
 	{
 		root = nullptr;
-		count = 0;
 	}
 
 	BST(std::initializer_list<T> elements) : BST()
@@ -90,7 +100,6 @@ public:
 				}
 				daughter->parent = parent;
 			}
-			count++;
 		}
 		catch (int i)
 		{
@@ -123,7 +132,7 @@ public:
 
 	int get_count()const
 	{
-		return count;
+		return root->getCounter();
 	}
 
 	Node* get_pointer(const T& value, Node* temp)const
@@ -182,14 +191,14 @@ public:
 				{
 					delNode->parent->left = nullptr;
 					delete delNode;
-					--count;
+
 					return;
 				}
 				if (delNode->parent->right == delNode)
 				{
 					delNode->parent->right = nullptr;
 					delete delNode;
-					--count;
+					
 					return;
 				}
 			}
@@ -198,7 +207,7 @@ public:
 				delNode->parent->left = delNode->left;
 				delNode->left->parent = delNode->parent;
 				delete delNode;
-				--count;
+				
 				return;
 			}
 			if (delNode->parent&&delNode->right)
@@ -210,7 +219,7 @@ public:
 				else delNode->parent->right = delNode->right;
 				delNode->right->parent = delNode->parent;
 				delete delNode;
-				--count;
+				
 				return;
 			}
 			if (delNode->left)
@@ -218,7 +227,7 @@ public:
 				root = delNode->left;
 				delNode->left = nullptr;
 				delete delNode;
-				--count;
+				
 				return;
 			}
 			if (delNode->right)
@@ -226,14 +235,14 @@ public:
 				root = delNode->right;
 				delNode->right = nullptr;
 				delete delNode;
-				--count;
+				
 				return;
 			}
 			if (!delNode->parent && !delNode->left && !delNode->right)
 			{
 				root = nullptr;
 				delete delNode;
-				--count;
+				
 				return;
 			}
 
