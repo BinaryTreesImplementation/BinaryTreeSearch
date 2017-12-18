@@ -262,7 +262,7 @@ public:
 	}
 	T* getLeftKey(const T& key)
 	{
-		Node *node = search_result(key);
+		Node *node = Search(key);
 		if (node != nullptr && node->left != nullptr)
 			return new T(node->left->element);
 		else
@@ -272,7 +272,7 @@ public:
 
 	T* getParentKey(const T& key)
 	{
-		Node *node = search_result(key);
+		Node *node = Search(key);
 		if (node != nullptr && node->parent != nullptr)
 			return new T(node->parent->element);
 		else
