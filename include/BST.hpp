@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#ifndef Counter
 class Counter
 {
 protected:
@@ -9,6 +10,7 @@ public:
 	Counter() { ++Count(); }
 	~Counter() { --Count(); }
 };
+#endif
 template <typename T>
 class BST
 {
