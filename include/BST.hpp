@@ -1,16 +1,7 @@
 #include <iostream>
 #include <string>
-#ifndef Counter
-class Counter
-{
-protected:
-	size_t& Count() { static size_t counter = 0; return counter; }
+#include "Counter.hpp"
 
-public:
-	Counter() { ++Count(); }
-	~Counter() { --Count(); }
-};
-#endif
 template <typename T>
 class BST
 {
